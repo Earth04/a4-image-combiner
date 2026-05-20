@@ -1,0 +1,302 @@
+
+<h2 class="sr-only">เครื่องมือรวมรูป A4 พร้อมใส่ข้อความ Before After QT</h2>
+<style>
+*,*::before,*::after{box-sizing:border-box;}
+#uz{border:1.5px dashed var(--color-border-secondary);border-radius:var(--border-radius-lg);padding:14px;text-align:center;cursor:pointer;background:var(--color-background-primary);transition:background 0.15s;margin-bottom:10px;}
+#uz:hover,#uz.dov{background:var(--color-background-info);border-color:var(--color-border-info);}
+.pnl{background:var(--color-background-primary);border:0.5px solid var(--color-border-tertiary);border-radius:var(--border-radius-lg);padding:10px 14px;margin-bottom:10px;}
+.row{display:flex;gap:8px;align-items:center;flex-wrap:wrap;}
+.lbl{font-size:12px;color:var(--color-text-secondary);white-space:nowrap;}
+.btn{font-size:12px;padding:5px 11px;border-radius:var(--border-radius-md);border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);cursor:pointer;color:var(--color-text-primary);white-space:nowrap;transition:all 0.1s;}
+.btn:hover{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);}
+.btn.pri{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);}
+.btn.dan{color:var(--color-text-danger);border-color:var(--color-border-danger);}
+.btn.act{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);}
+.tag{padding:5px 14px;border-radius:20px;font-size:13px;font-weight:500;cursor:pointer;border:0.5px solid var(--color-border-secondary);background:var(--color-background-secondary);color:var(--color-text-primary);transition:all 0.1s;}
+.tag:hover{background:var(--color-background-info);color:var(--color-text-info);border-color:var(--color-border-info);}
+#cw{display:flex;justify-content:center;margin-bottom:10px;}
+#cv{display:block;box-shadow:0 2px 14px rgba(0,0,0,0.15);}
+#il{display:flex;gap:6px;flex-wrap:wrap;padding-bottom:12px;}
+.chip{display:flex;align-items:center;gap:4px;background:var(--color-background-secondary);border:0.5px solid var(--color-border-tertiary);border-radius:20px;padding:3px 10px;font-size:12px;color:var(--color-text-secondary);cursor:pointer;}
+.chip:hover{border-color:var(--color-border-primary);}
+.rm{background:none;border:none;cursor:pointer;color:var(--color-text-secondary);font-size:14px;padding:0;line-height:1;}
+.rm:hover{color:var(--color-text-danger);}
+.divider{border:none;border-top:0.5px solid var(--color-border-tertiary);margin:8px 0;}
+</style>
+
+<div style="padding:8px 0;">
+
+<div id="uz" onclick="document.getElementById('fi').click()"
+  ondragover="event.preventDefault();this.classList.add('dov')"
+  ondragleave="this.classList.remove('dov')"
+  ondrop="drop(event)">
+  <i class="ti ti-photo-plus" style="font-size:26px;color:var(--color-text-secondary);" aria-hidden="true"></i>
+  <p style="font-size:13px;color:var(--color-text-secondary);margin:4px 0 0;">คลิกหรือลากรูปมาวางที่นี่</p>
+  <input type="file" id="fi" multiple accept="image/*" style="display:none" onchange="loadFiles(this.files)">
+</div>
+
+<div class="pnl">
+  <div class="row">
+    <span class="lbl">จัดอัตโนมัติ:</span>
+    <button class="btn" onclick="lay(1)">1 รูป</button>
+    <button class="btn" onclick="lay('2v')">2 แนวตั้ง</button>
+    <button class="btn" onclick="lay('2h')">2 แนวนอน</button>
+    <button class="btn" onclick="lay(3)">3 รูป</button>
+    <button class="btn" onclick="lay(4)">4 รูป</button>
+    <button class="btn" onclick="lay('a')">อัตโนมัติ</button>
+    <div style="flex:1"></div>
+    <button class="btn dan" onclick="clrAll()"><i class="ti ti-trash" aria-hidden="true"></i></button>
+    <button class="btn pri" onclick="dl()"><i class="ti ti-download" aria-hidden="true"></i> JPG</button>
+  </div>
+</div>
+
+<div class="pnl">
+  <div class="row" style="margin-bottom:8px;">
+    <i class="ti ti-text-size" style="font-size:17px;color:var(--color-text-secondary);" aria-hidden="true"></i>
+    <span style="font-size:13px;font-weight:500;color:var(--color-text-primary);">เพิ่มข้อความ</span>
+  </div>
+
+  <div class="row" style="margin-bottom:8px;">
+    <span class="lbl">ใช้บ่อย:</span>
+    <button class="tag" onclick="addP('Before')">Before</button>
+    <button class="tag" onclick="addP('After')">After</button>
+    <button class="tag" onclick="addP('QT')">QT</button>
+    <button class="tag" onclick="addP('ก่อน')">ก่อน</button>
+    <button class="tag" onclick="addP('หลัง')">หลัง</button>
+    <button class="tag" onclick="addP('✓')">✓</button>
+    <button class="tag" onclick="addP('✗')">✗</button>
+    <button class="tag" onclick="addP('OK')">OK</button>
+    <button class="tag" onclick="addP('NG')">NG</button>
+  </div>
+
+  <div class="row" style="margin-bottom:8px;">
+    <input type="text" id="ti" placeholder="พิมพ์ข้อความที่ต้องการ..." style="flex:1;min-width:100px;" onkeydown="if(event.key==='Enter')addTxt()">
+    <button class="btn pri" onclick="addTxt()"><i class="ti ti-plus" aria-hidden="true"></i> เพิ่ม</button>
+  </div>
+
+  <hr class="divider">
+
+  <div class="row">
+    <span class="lbl">ขนาด</span>
+    <input type="range" id="fs" min="10" max="160" value="52" style="width:90px;" oninput="document.getElementById('fsv').textContent=this.value+'px';updSel()">
+    <span id="fsv" style="font-size:12px;color:var(--color-text-secondary);min-width:36px;">52px</span>
+    <span class="lbl">สี</span>
+    <input type="color" id="fc" value="#ffffff" oninput="updSel()" style="width:30px;height:26px;padding:1px 2px;border-radius:4px;border:0.5px solid var(--color-border-secondary);cursor:pointer;background:none;">
+    <button class="btn" id="bb" onclick="togBold()" style="font-weight:700;min-width:32px;">B</button>
+    <button class="btn" id="ib" onclick="togItalic()" style="font-style:italic;min-width:32px;">I</button>
+    <span class="lbl">เงา</span>
+    <input type="checkbox" id="sh" onchange="updSel()" checked style="width:15px;height:15px;cursor:pointer;accent-color:var(--color-text-info);">
+    <button class="btn dan" onclick="delSel()" style="margin-left:auto;font-size:11px;"><i class="ti ti-trash" aria-hidden="true"></i> ลบที่เลือก</button>
+  </div>
+</div>
+
+<p style="text-align:center;font-size:11px;color:var(--color-text-secondary);margin-bottom:8px;">
+  <b>ลาก</b>รูป/ข้อความเพื่อย้าย &nbsp;•&nbsp; <b>จุดสีน้ำเงิน</b>ที่มุมรูปเพื่อปรับขนาด &nbsp;•&nbsp; กด <b>Delete</b> เพื่อลบ
+</p>
+
+<div id="cw"><canvas id="cv"></canvas></div>
+<div id="il"></div>
+</div>
+
+<script>
+const A4W=794,A4H=1123,cv=document.getElementById('cv'),ctx=cv.getContext('2d');
+let imgs=[],txts=[],nid=1,sel=null,drag=false,resz=false,ds={},rt=null,sc=0.7;
+let bold=false,ital=false;
+const HS=9;
+
+function gsc(){return Math.min(((window.innerWidth||680)-32)/A4W,0.82);}
+
+function init(){sc=gsc();cv.width=Math.round(A4W*sc);cv.height=Math.round(A4H*sc);ren();}
+
+function ren(){
+  ctx.fillStyle='#fff';ctx.fillRect(0,0,cv.width,cv.height);
+  if(!imgs.length&&!txts.length){
+    ctx.strokeStyle='#eee';ctx.lineWidth=1;
+    [A4W/3,A4W*2/3].forEach(x=>{ctx.beginPath();ctx.moveTo(x*sc,0);ctx.lineTo(x*sc,cv.height);ctx.stroke();});
+    [A4H/3,A4H*2/3].forEach(y=>{ctx.beginPath();ctx.moveTo(0,y*sc);ctx.lineTo(cv.width,y*sc);ctx.stroke();});
+    ctx.fillStyle='#bbb';ctx.font=Math.round(13*sc)+'px sans-serif';ctx.textAlign='center';
+    ctx.fillText('อัพโหลดรูปด้านบนเพื่อเริ่มต้น',cv.width/2,cv.height/2);
+    return;
+  }
+  for(const im of imgs){
+    ctx.save();ctx.beginPath();ctx.rect(im.x*sc,im.y*sc,im.w*sc,im.h*sc);ctx.clip();
+    ctx.drawImage(im.el,im.x*sc,im.y*sc,im.w*sc,im.h*sc);ctx.restore();
+    if(sel?.t==='i'&&sel.id===im.id){
+      ctx.strokeStyle='#1a73e8';ctx.lineWidth=2;
+      ctx.strokeRect(im.x*sc+1,im.y*sc+1,im.w*sc-2,im.h*sc-2);
+      drawH(im);
+    }
+  }
+  for(const t of txts){
+    const fs=t.fs*sc,font=(t.ital?'italic ':''+(t.bold?'bold ':' '))+fs+'px Arial,"Noto Sans Thai",sans-serif';
+    ctx.font=font;ctx.textAlign='left';ctx.textBaseline='top';
+    if(t.sh){ctx.shadowColor='rgba(0,0,0,0.75)';ctx.shadowBlur=fs*0.3;ctx.shadowOffsetX=fs*0.07;ctx.shadowOffsetY=fs*0.07;}
+    ctx.fillStyle=t.col;ctx.fillText(t.txt,t.x*sc,t.y*sc);
+    ctx.shadowColor='transparent';ctx.shadowBlur=0;ctx.shadowOffsetX=0;ctx.shadowOffsetY=0;
+    if(sel?.t==='x'&&sel.id===t.id){
+      const mw=ctx.measureText(t.txt).width;
+      ctx.strokeStyle='#1a73e8';ctx.lineWidth=1.5;ctx.setLineDash([4,3]);
+      ctx.strokeRect(t.x*sc-3,t.y*sc-3,mw+6,fs+8);ctx.setLineDash([]);
+    }
+  }
+}
+
+function hlist(im){
+  const x=im.x*sc,y=im.y*sc,w=im.w*sc,h=im.h*sc;
+  return [{x,y,t:'nw'},{x:x+w/2,y,t:'n'},{x:x+w,y,t:'ne'},{x:x+w,y:y+h/2,t:'e'},
+          {x:x+w,y:y+h,t:'se'},{x:x+w/2,y:y+h,t:'s'},{x,y:y+h,t:'sw'},{x,y:y+h/2,t:'w'}];
+}
+
+function drawH(im){
+  ctx.fillStyle='#1a73e8';ctx.strokeStyle='#fff';ctx.lineWidth=1.5;
+  hlist(im).forEach(h=>{ctx.beginPath();ctx.rect(h.x-HS/2,h.y-HS/2,HS,HS);ctx.fill();ctx.stroke();});
+}
+
+function hitH(mx,my,im){for(const h of hlist(im))if(Math.abs(mx-h.x)<=HS&&Math.abs(my-h.y)<=HS)return h.t;return null;}
+
+function hitI(mx,my){for(let i=imgs.length-1;i>=0;i--){const im=imgs[i];if(mx>=im.x*sc&&mx<=(im.x+im.w)*sc&&my>=im.y*sc&&my<=(im.y+im.h)*sc)return im;}return null;}
+
+function hitX(mx,my){
+  for(let i=txts.length-1;i>=0;i--){
+    const t=txts[i];const fs=t.fs*sc;
+    const f=(t.ital?'italic ':''+(t.bold?'bold ':' '))+fs+'px Arial,"Noto Sans Thai",sans-serif';
+    ctx.font=f;ctx.textBaseline='top';
+    const mw=ctx.measureText(t.txt).width;
+    if(mx>=t.x*sc-5&&mx<=t.x*sc+mw+5&&my>=t.y*sc-5&&my<=t.y*sc+fs+10)return t;
+  }
+  return null;
+}
+
+function gpos(e){const r=cv.getBoundingClientRect(),s=e.touches?e.touches[0]:e;return{mx:s.clientX-r.left,my:s.clientY-r.top};}
+
+const CM={nw:'nw-resize',n:'n-resize',ne:'ne-resize',e:'e-resize',se:'se-resize',s:'s-resize',sw:'sw-resize',w:'w-resize'};
+
+function onDn(e){
+  const{mx,my}=gpos(e);
+  if(sel?.t==='i'){const im=imgs.find(i=>i.id===sel.id);if(im){const h=hitH(mx,my,im);if(h){resz=true;rt=h;ds={mx,my,x:im.x,y:im.y,w:im.w,h:im.h};return;}}}
+  const xt=hitX(mx,my);
+  if(xt){sel={t:'x',id:xt.id};drag=true;ds={mx,my,ox:xt.x,oy:xt.y};syncC(xt);txts=txts.filter(i=>i.id!==xt.id);txts.push(xt);ren();return;}
+  const im=hitI(mx,my);
+  if(im){sel={t:'i',id:im.id};drag=true;ds={mx,my,ox:im.x,oy:im.y};imgs=imgs.filter(i=>i.id!==im.id);imgs.push(im);ren();return;}
+  sel=null;ren();
+}
+
+function onMv(e){
+  if(e.cancelable)e.preventDefault();
+  const{mx,my}=gpos(e),dx=(mx-ds.mx)/sc,dy=(my-ds.my)/sc;
+  if(!drag&&!resz){
+    let c='default';
+    if(sel?.t==='i'){const im=imgs.find(i=>i.id===sel.id);if(im){const h=hitH(mx,my,im);if(h)c=CM[h];else if(hitI(mx,my)?.id===im.id)c='move';}}
+    else if(hitX(mx,my))c='move';else if(hitI(mx,my))c='move';
+    cv.style.cursor=c;return;
+  }
+  if(drag){
+    if(sel?.t==='i'){const im=imgs.find(i=>i.id===sel.id);if(im){im.x=Math.max(0,Math.min(A4W-im.w,ds.ox+dx));im.y=Math.max(0,Math.min(A4H-im.h,ds.oy+dy));}}
+    else if(sel?.t==='x'){const t=txts.find(i=>i.id===sel.id);if(t){t.x=Math.max(0,Math.min(A4W,ds.ox+dx));t.y=Math.max(0,Math.min(A4H,ds.oy+dy));}}
+  }else if(resz&&sel?.t==='i'){
+    const im=imgs.find(i=>i.id===sel.id);if(!im)return;
+    let{x:ox,y:oy,w:ow,h:oh}=ds,nx=ox,ny=oy,nw=ow,nh=oh;const M=40;
+    if(rt.includes('e'))nw=Math.max(M,Math.min(A4W-ox,ow+dx));
+    if(rt.includes('s'))nh=Math.max(M,Math.min(A4H-oy,oh+dy));
+    if(rt.includes('w')){nw=Math.max(M,ow-dx);nx=ox+ow-nw;}
+    if(rt.includes('n')){nh=Math.max(M,oh-dy);ny=oy+oh-nh;}
+    im.x=Math.max(0,nx);im.y=Math.max(0,ny);im.w=nw;im.h=nh;
+  }
+  ren();
+}
+
+function onUp(){drag=false;resz=false;rt=null;}
+
+cv.addEventListener('mousedown',onDn);cv.addEventListener('mousemove',onMv);cv.addEventListener('mouseup',onUp);cv.addEventListener('mouseleave',onUp);
+cv.addEventListener('touchstart',e=>{if(e.cancelable)e.preventDefault();onDn(e);},{passive:false});
+cv.addEventListener('touchmove',onMv,{passive:false});cv.addEventListener('touchend',onUp);
+
+document.addEventListener('keydown',e=>{if((e.key==='Delete'||e.key==='Backspace')&&sel&&document.activeElement.tagName!=='INPUT')delSel();});
+
+function delSel(){
+  if(!sel)return;
+  if(sel.t==='i'){imgs=imgs.filter(i=>i.id!==sel.id);updL();}
+  else txts=txts.filter(i=>i.id!==sel.id);
+  sel=null;ren();
+}
+
+function addTxt(){const v=document.getElementById('ti').value.trim();if(v){addP(v);document.getElementById('ti').value='';}}
+
+function addP(txt){
+  const t={id:nid++,txt,x:40,y:40,fs:parseInt(document.getElementById('fs').value)||52,
+            col:document.getElementById('fc').value||'#ffffff',bold,ital,sh:document.getElementById('sh').checked};
+  txts.push(t);sel={t:'x',id:t.id};ren();
+}
+
+function syncC(t){
+  document.getElementById('fs').value=t.fs;
+  document.getElementById('fsv').textContent=t.fs+'px';
+  document.getElementById('fc').value=t.col;
+  document.getElementById('sh').checked=t.sh;
+  bold=t.bold;ital=t.ital;
+  document.getElementById('bb').classList.toggle('act',bold);
+  document.getElementById('ib').classList.toggle('act',ital);
+}
+
+function updSel(){
+  const fs=parseInt(document.getElementById('fs').value);
+  document.getElementById('fsv').textContent=fs+'px';
+  if(sel?.t==='x'){const t=txts.find(i=>i.id===sel.id);if(t){t.fs=fs;t.col=document.getElementById('fc').value;t.sh=document.getElementById('sh').checked;t.bold=bold;t.ital=ital;ren();}}
+}
+
+function togBold(){bold=!bold;document.getElementById('bb').classList.toggle('act',bold);if(sel?.t==='x'){const t=txts.find(i=>i.id===sel.id);if(t){t.bold=bold;ren();}}}
+function togItalic(){ital=!ital;document.getElementById('ib').classList.toggle('act',ital);if(sel?.t==='x'){const t=txts.find(i=>i.id===sel.id);if(t){t.ital=ital;ren();}}}
+
+function loadFiles(files){
+  Array.from(files).forEach(f=>{const r=new FileReader();r.onload=ev=>{const el=new Image();el.onload=()=>{imgs.push({el,id:nid++,x:0,y:0,w:A4W,h:A4H,name:f.name});lay('a');updL();};el.src=ev.target.result;};r.readAsDataURL(f);});
+  document.getElementById('fi').value='';
+}
+
+function drop(e){e.preventDefault();document.getElementById('uz').classList.remove('dov');loadFiles(e.dataTransfer.files);}
+
+function asgn(im,x,y,w,h){im.x=x;im.y=y;im.w=w;im.h=h;}
+
+function lay(t){
+  const n=imgs.length;if(!n){ren();return;}
+  if(t==='a'){if(n===1)lay(1);else if(n===2)lay('2v');else if(n===3)lay(3);else if(n===4)lay(4);else lay('g');return;}
+  if(t===1)asgn(imgs[0],0,0,A4W,A4H);
+  else if(t==='2v')imgs.slice(0,2).forEach((im,i)=>asgn(im,i*A4W/2,0,A4W/2,A4H));
+  else if(t==='2h')imgs.slice(0,2).forEach((im,i)=>asgn(im,0,i*A4H/2,A4W,A4H/2));
+  else if(t===3){asgn(imgs[0],0,0,A4W,A4H/2);if(n>1)asgn(imgs[1],0,A4H/2,A4W/2,A4H/2);if(n>2)asgn(imgs[2],A4W/2,A4H/2,A4W/2,A4H/2);}
+  else if(t===4){asgn(imgs[0],0,0,A4W/2,A4H/2);if(n>1)asgn(imgs[1],A4W/2,0,A4W/2,A4H/2);if(n>2)asgn(imgs[2],0,A4H/2,A4W/2,A4H/2);if(n>3)asgn(imgs[3],A4W/2,A4H/2,A4W/2,A4H/2);}
+  else{const c=Math.ceil(Math.sqrt(n)),cw=A4W/c,ch=A4H/Math.ceil(n/c);imgs.forEach((im,i)=>asgn(im,(i%c)*cw,Math.floor(i/c)*ch,cw,ch));}
+  ren();
+}
+
+function clrAll(){imgs=[];txts=[];sel=null;ren();updL();}
+
+function updL(){
+  const l=document.getElementById('il');l.innerHTML='';
+  imgs.forEach(im=>{
+    const d=document.createElement('div');d.className='chip';
+    const ic=document.createElement('i');ic.className='ti ti-photo';ic.setAttribute('aria-hidden','true');ic.style.fontSize='13px';
+    const sp=document.createElement('span');sp.textContent=im.name||'รูป '+im.id;
+    const rm=document.createElement('button');rm.className='rm';rm.textContent='✕';
+    rm.onclick=ev=>{ev.stopPropagation();imgs=imgs.filter(i=>i.id!==im.id);if(sel?.id===im.id)sel=null;ren();updL();};
+    d.onclick=()=>{sel={t:'i',id:im.id};ren();};
+    d.append(ic,sp,rm);l.appendChild(d);
+  });
+}
+
+function dl(){
+  if(!imgs.length&&!txts.length){alert('กรุณาอัพโหลดรูปก่อน');return;}
+  const ec=document.createElement('canvas');ec.width=A4W;ec.height=A4H;
+  const ex=ec.getContext('2d');ex.fillStyle='#fff';ex.fillRect(0,0,A4W,A4H);
+  for(const im of imgs){ex.save();ex.beginPath();ex.rect(im.x,im.y,im.w,im.h);ex.clip();ex.drawImage(im.el,im.x,im.y,im.w,im.h);ex.restore();}
+  for(const t of txts){
+    const f=(t.ital?'italic ':''+(t.bold?'bold ':' '))+t.fs+'px Arial,"Noto Sans Thai",sans-serif';
+    ex.font=f;ex.textAlign='left';ex.textBaseline='top';
+    if(t.sh){ex.shadowColor='rgba(0,0,0,0.75)';ex.shadowBlur=t.fs*0.3;ex.shadowOffsetX=t.fs*0.07;ex.shadowOffsetY=t.fs*0.07;}
+    ex.fillStyle=t.col;ex.fillText(t.txt,t.x,t.y);
+    ex.shadowColor='transparent';ex.shadowBlur=0;ex.shadowOffsetX=0;ex.shadowOffsetY=0;
+  }
+  const a=document.createElement('a');a.download='a4_combined.jpg';a.href=ec.toDataURL('image/jpeg',0.95);a.click();
+}
+
+init();window.addEventListener('resize',init);
+</script>
